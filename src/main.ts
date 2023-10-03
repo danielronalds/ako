@@ -1,14 +1,41 @@
-import { invoke } from "@tauri-apps/api/tauri";
+import {invoke} from "@tauri-apps/api/tauri";
 
-import { List, Task } from "./list.ts";
+import {List, Task} from "./list.ts";
+
+let appLists: Array<List>;
 
 window.addEventListener("DOMContentLoaded", () => {
     let lists: Promise<Array<List>> = invoke("get_lists")
     lists.then((lists) => {
         console.log(lists);
-        writeListsToDOM(lists);
+        appLists = lists;
+        writeListsToDOM(appLists);
+        setupTaskBlockOnClick();
     });
 });
+
+function setupTaskBlockOnClick() {
+    document.querySelectorAll("task-block")?.forEach((task) => {
+        task.addEventListener('click', () => {
+            const index = task.getAttribute("index");
+            const listIndex = task.getAttribute("list-index");
+
+            if (index == null || listIndex == null) return;
+
+            invoke("complete_task", {
+                taskI: Number(index),
+                listI: Number(listIndex)
+            }).then(() => {
+                let lists: Promise<Array<List>> = invoke("get_lists")
+                lists.then((lists) => {
+                    appLists = lists;
+                    writeListsToDOM(appLists);
+                    setupTaskBlockOnClick();
+                })
+            })
+        });
+    })
+}
 
 function writeListsToDOM(lists: Array<List>) {
     let listWindowsContainer = document.getElementById("list-windows-container");
@@ -16,14 +43,14 @@ function writeListsToDOM(lists: Array<List>) {
 
     let innerHtml = "";
 
-    lists.forEach((list) => {
-        innerHtml += getListHtml(list);
-    })
+    for (let i = 0; i < lists.length; i++) {
+        innerHtml += getListHtml(lists[i], i);
+    }
 
     listWindowsContainer.innerHTML = innerHtml;
 }
 
-function getListHtml(list: List): string {
+function getListHtml(list: List, listIndex: number): string {
     let innerHtml = `
     <list-window>
         <h1>${list.name}</h1>
@@ -31,11 +58,11 @@ function getListHtml(list: List): string {
     `;
 
     for (let i = 0; i < list.tasks.length; i++) {
-        innerHtml += getTaskHtml(list.tasks[i], i);
+        innerHtml += getTaskHtml(list.tasks[i], i, listIndex);
     }
 
     for (let i = 0; i < list.completed_tasks.length; i++) {
-        innerHtml += getCompletedTaskHtml(list.completed_tasks[i], i);
+        innerHtml += getCompletedTaskHtml(list.completed_tasks[i], i, listIndex);
     }
 
     innerHtml += `
@@ -44,18 +71,19 @@ function getListHtml(list: List): string {
     return innerHtml;
 }
 
-function getTaskHtml(task: Task, index: number): string {
+function getTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
-    <task-block index="${index}">
+    <task-block index="${index}" list-index="${listIndex}">
         <task-title>${task.title}</task-title>
         <task-description>${task.description}</task-description>
     </task-block>
     `
 }
-function getCompletedTaskHtml(task: Task, index: number): string {
+
+function getCompletedTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
-    <task-block completed index="${index}">
+    <completed-task-block index="${index}" list-index="${listIndex}">
         <task-title>${task.title}</task-title>
-    </task-block>
+    </completed-task-block>
     `
 }

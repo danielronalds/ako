@@ -59,7 +59,6 @@ agenda-tasks {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 25px;
-  overflow: scroll;
   /*width: 100vw;*/
   /*height: 100vb;*/
   /*background-color: var(--nord3);*/
@@ -80,7 +79,7 @@ list-window h1 {
   text-align: center;
 }
 
-task-block {
+completed-task-block, task-block {
   transition: 0.3s ease-in-out;
   cursor: pointer;
   margin: 5px;
@@ -93,7 +92,7 @@ task-block:hover {
   border-radius: 10px;
 }
 
-task-block[completed] {
+completed-task-block {
   text-decoration: line-through;
 }
 

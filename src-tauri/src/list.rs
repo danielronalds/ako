@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 /// A struct to represent a list of tasks
 pub struct List {
     /// The name of the list
@@ -42,6 +42,12 @@ impl List {
         }
     }
 
+    /// If the given index is in range, completes the task at the index and then moves it to the
+    /// completed list
+    ///
+    /// # Arguments
+    ///
+    /// - `index` The index of the task to complete
     pub fn complete_task(&mut self, index: usize) {
         if index >= self.tasks.len() {
             return;
@@ -63,13 +69,11 @@ impl Default for List {
         list.add_task(Task::new("Task 4", "Wait......"));
         list.add_task(Task::new("Task 5", "Why is there another?!?!?"));
         list.add_task(Task::new("Task 6", "Don't finish on an even number!"));
-        list.complete_task(4);
-        list.complete_task(4);
         list
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 /// A struct to represent a Task
 struct Task {
     /// Whether the task is completed
@@ -99,6 +103,7 @@ impl Task {
         }
     }
 
+    /// Completes the task
     pub fn complete(&mut self) {
         self.completed = true;
     }
