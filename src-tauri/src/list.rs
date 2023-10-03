@@ -41,6 +41,17 @@ impl List {
             false => self.tasks.push(task)
         }
     }
+
+    pub fn complete_task(&mut self, index: usize) {
+        if index >= self.tasks.len() {
+            return;
+        }
+
+        self.tasks[index].complete();
+
+        let task = self.tasks.remove(index);
+        self.completed_tasks.push(task);
+    }
 }
 
 impl Default for List {
@@ -52,6 +63,8 @@ impl Default for List {
         list.add_task(Task::new("Task 4", "Wait......"));
         list.add_task(Task::new("Task 5", "Why is there another?!?!?"));
         list.add_task(Task::new("Task 6", "Don't finish on an even number!"));
+        list.complete_task(4);
+        list.complete_task(4);
         list
     }
 }
@@ -84,5 +97,9 @@ impl Task {
             description: description.into(),
             title: title.into(),
         }
+    }
+
+    pub fn complete(&mut self) {
+        self.completed = true;
     }
 }

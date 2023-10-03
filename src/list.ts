@@ -1,7 +1,7 @@
 export type List = {
     name: string,
     tasks: Array<Task>
-    completedTasks: Array<Task>
+    completed_tasks: Array<Task>
 }
 
 export type Task = {

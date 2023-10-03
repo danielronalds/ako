@@ -34,6 +34,10 @@ function getListHtml(list: List): string {
         innerHtml += getTaskHtml(list.tasks[i], i);
     }
 
+    for (let i = 0; i < list.completed_tasks.length; i++) {
+        innerHtml += getCompletedTaskHtml(list.completed_tasks[i], i);
+    }
+
     innerHtml += `
         </list-window>
     `;
@@ -45,6 +49,13 @@ function getTaskHtml(task: Task, index: number): string {
     <task-block index="${index}">
         <task-title>${task.title}</task-title>
         <task-description>${task.description}</task-description>
+    </task-block>
+    `
+}
+function getCompletedTaskHtml(task: Task, index: number): string {
+    return `
+    <task-block completed index="${index}">
+        <task-title>${task.title}</task-title>
     </task-block>
     `
 }
