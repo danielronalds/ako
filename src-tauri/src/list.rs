@@ -43,7 +43,7 @@ impl List {
     }
 
     /// If the given index is in range, completes the task at the index and then moves it to the
-    /// completed list
+    /// completed vec
     ///
     /// # Arguments
     ///
@@ -57,6 +57,23 @@ impl List {
 
         let task = self.tasks.remove(index);
         self.completed_tasks.push(task);
+    }
+
+    /// If the given index is in range, restarts the task at the index and then moves it to the
+    /// non-completed tasks vec
+    ///
+    /// # Arguments
+    ///
+    /// - `index` The index of the task to restart
+    pub fn restart_task(&mut self, index: usize) {
+        if index >= self.completed_tasks.len() {
+            return;
+        }
+
+        self.completed_tasks[index].complete();
+
+        let task = self.completed_tasks.remove(index);
+        self.tasks.push(task);
     }
 }
 

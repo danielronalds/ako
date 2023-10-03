@@ -34,6 +34,26 @@ function setupTaskBlockOnClick() {
                 })
             })
         });
+    });
+    document.querySelectorAll("completed-task-block")?.forEach((task) => {
+        task.addEventListener('click', () => {
+            const index = task.getAttribute("index");
+            const listIndex = task.getAttribute("list-index");
+
+            if (index == null || listIndex == null) return;
+
+            invoke("restart_task", {
+                taskI: Number(index),
+                listI: Number(listIndex)
+            }).then(() => {
+                let lists: Promise<Array<List>> = invoke("get_lists")
+                lists.then((lists) => {
+                    appLists = lists;
+                    writeListsToDOM(appLists);
+                    setupTaskBlockOnClick();
+                })
+            })
+        });
     })
 }
 

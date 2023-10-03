@@ -86,7 +86,7 @@ completed-task-block, task-block {
   padding: 10px;
 }
 
-task-block:hover {
+completed-task-block:hover, task-block:hover {
   color: var(--nord3);
   background-color: #F5F5F5;
   border-radius: 10px;
