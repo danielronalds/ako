@@ -1,15 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/src/styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/src/styles.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Ako</title>
     <script type="module" src="/src/main.ts" defer></script>
-  </head>
+</head>
 
-  <body>
-  <h1 id="top-bar">Ako</h1>
-    <div id="list-windows-container"></div>
-  </body>
+<body>
+<top-bar>
+    <h1>Ako</h1>
+</top-bar>
+<todays-agenda show>
+    <div id="todays-agenda-shown">
+        <h1>Today's Agenda</h1>
+        <agenda-tasks>
+            <task-block index="0">
+                <task-title>Start huge project</task-title>
+                <task-description>This is a really big project that I should start as soon as possible
+                </task-description>
+            </task-block>
+        </agenda-tasks>
+    </div>
+</todays-agenda>
+<div id="list-windows-container"></div>
+</body>
 </html>

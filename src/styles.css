@@ -1,8 +1,13 @@
 @import "../node_modules/nord/src/nord.css";
 
+html {
+  font-family: sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
   background-image: url("assets/rain_drops_animated.jpg");
   background-size: cover;
   background-color: rgba(0,0,0,.5);
@@ -10,20 +15,53 @@ body {
   overflow: hidden;
 }
 
-#top-bar {
-  width: 98vw;
-  margin-left: 1vw;
+top-bar, list-window, todays-agenda {
+  box-shadow: #0000000F 0 10px 10px;
+}
+
+top-bar {
+  display:block;
+  width: 96vw;
+  margin-top: 5px;
+  margin-left: 2vw;
+  margin-right: 2vw;
   border-radius: 6px;
   background-color: #FFFFFF;
-  padding: 5px;
+}
+
+top-bar h1 {
+  padding: 7px;
+}
+
+todays-agenda[show] {
+  display:block;
+  margin-left: 2vw;
+  float: left;
+  height: 90%;
+  padding: 10px;
+  width: 350px;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+}
+
+todays-agenda h1 {
+  text-align: center;
+}
+
+agenda-tasks {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 #list-windows-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 25px;
-  width: 100vw;
-  height: 100vb;
+  overflow: scroll;
+  /*width: 100vw;*/
+  /*height: 100vb;*/
   /*background-color: var(--nord3);*/
 }
 
@@ -34,7 +72,6 @@ list-window {
   margin: 20px;
   min-width: 350px;
   height: fit-content;
-  box-shadow: #0000000A 0 10px 10px;
   display: flex;
   flex-direction: column;
 }
@@ -44,8 +81,16 @@ list-window h1 {
 }
 
 task-block {
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
   margin: 5px;
   padding: 10px;
+}
+
+task-block:hover {
+  color: var(--nord3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
 }
 
 task-block[completed] {
