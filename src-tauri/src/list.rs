@@ -1,14 +1,12 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
 /// A struct to represent a list of tasks
 pub struct List {
     /// The name of the list
     name: String,
-    /// Tasks that are on the list but not completed
+    /// Tasks in the list
     tasks: Vec<Task>,
-    /// Tasks that are on the list but are completed
-    completed_tasks: Vec<Task>,
 }
 
 impl List {
@@ -25,7 +23,6 @@ impl List {
         Self {
             name: name.into(),
             tasks: vec![],
-            completed_tasks: vec![],
         }
     }
 
@@ -36,14 +33,11 @@ impl List {
     ///
     /// - `tasks` The task to add to the list
     pub fn add_task(&mut self, task: Task) {
-        match task.completed {
-            true => self.completed_tasks.push(task),
-            false => self.tasks.push(task)
-        }
+        self.tasks.push(task);
+        self.sort_tasks();
     }
 
-    /// If the given index is in range, completes the task at the index and then moves it to the
-    /// completed vec
+    /// If the given index is in range, completes the task at the index
     ///
     /// # Arguments
     ///
@@ -53,27 +47,33 @@ impl List {
             return;
         }
 
-        self.tasks[index].complete();
-
-        let task = self.tasks.remove(index);
-        self.completed_tasks.push(task);
+        self.tasks[index].set_completed(true);
+        self.sort_tasks();
     }
 
-    /// If the given index is in range, restarts the task at the index and then moves it to the
-    /// non-completed tasks vec
+    /// If the given index is in range, restarts the task at the index
     ///
     /// # Arguments
     ///
     /// - `index` The index of the task to restart
     pub fn restart_task(&mut self, index: usize) {
-        if index >= self.completed_tasks.len() {
+        if index >= self.tasks.len() {
             return;
         }
 
-        self.completed_tasks[index].complete();
+        self.tasks[index].set_completed(true);
+        self.sort_tasks();
+    }
 
-        let task = self.completed_tasks.remove(index);
-        self.tasks.push(task);
+    /// Sorts the tasks in the list with completed tasks being pushed to the back
+    fn sort_tasks(&mut self) {
+        self.tasks = self
+            .tasks
+            .iter()
+            .filter(|x| !x.completed)
+            .chain(self.tasks.iter().filter(|x| x.completed))
+            .map(|x| x.to_owned())
+            .collect();
     }
 }
 
@@ -92,7 +92,7 @@ impl Default for List {
 
 #[derive(Serialize, Deserialize, Clone)]
 /// A struct to represent a Task
-struct Task {
+pub struct Task {
     /// Whether the task is completed
     completed: bool,
     /// The title of the task
@@ -120,8 +120,12 @@ impl Task {
         }
     }
 
-    /// Completes the task
-    pub fn complete(&mut self) {
-        self.completed = true;
+    /// Sets the status of the task
+    ///
+    /// # Arguments
+    ///
+    /// - `status` Whether the task is complete or not
+    pub fn set_completed(&mut self, status: bool) {
+        self.completed = status;
     }
 }

@@ -78,11 +78,12 @@ function getListHtml(list: List, listIndex: number): string {
     `;
 
     for (let i = 0; i < list.tasks.length; i++) {
-        innerHtml += getTaskHtml(list.tasks[i], i, listIndex);
-    }
-
-    for (let i = 0; i < list.completed_tasks.length; i++) {
-        innerHtml += getCompletedTaskHtml(list.completed_tasks[i], i, listIndex);
+        let task = list.tasks[i];
+        if (task.completed) {
+            innerHtml += getCompletedTaskHtml(task, i, listIndex);
+        } else {
+            innerHtml += getTaskHtml(task, i, listIndex);
+        }
     }
 
     innerHtml += `
