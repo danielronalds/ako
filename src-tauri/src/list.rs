@@ -61,7 +61,7 @@ impl List {
             return;
         }
 
-        self.tasks[index].set_completed(true);
+        self.tasks[index].set_completed(false);
         self.sort_tasks();
     }
 
@@ -112,11 +112,11 @@ impl Task {
     /// # Returns
     ///
     /// A new task that has not been completed
-    pub fn new<T: Into<String>>(title: T, description: T) -> Self {
+    pub fn new<T: ToString>(title: T, description: T) -> Self {
         Self {
             completed: false,
-            description: description.into(),
-            title: title.into(),
+            description: description.to_string(),
+            title: title.to_string(),
         }
     }
 

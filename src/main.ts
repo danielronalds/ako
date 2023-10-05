@@ -5,14 +5,39 @@ import {List, Task} from "./list.ts";
 let appLists: Array<List>;
 
 window.addEventListener("DOMContentLoaded", () => {
-    let lists: Promise<Array<List>> = invoke("get_lists")
-    lists.then((lists) => {
-        console.log(lists);
-        appLists = lists;
-        writeListsToDOM(appLists);
-        setupTaskBlockOnClick();
-    });
+    refreshLists();
 });
+
+async function refreshLists() {
+    appLists = await invoke("get_lists");
+    writeListsToDOM(appLists);
+    setupTaskBlockOnClick();
+    setupFormListeners();
+}
+
+
+function setupFormListeners(){
+    for (let i = 0; i < appLists.length; i++) {
+        let buttonId = "#submit" + i;
+        document.querySelector(buttonId)?.addEventListener("click", (e) => {
+            e.preventDefault();
+            let formId = "list" + i;
+            let form: any | null = document.getElementById(formId);
+            if(form == null) return;
+
+            let newTask = form.elements["new-task-title"];
+
+            if (newTask.value === "") return;
+
+            invoke("add_task", {
+                taskTitle: newTask.value,
+                listI: i
+            }).then(() => {
+                refreshLists()
+            });
+        });
+    }
+}
 
 function setupTaskBlockOnClick() {
     document.querySelectorAll("task-block")?.forEach((task) => {
@@ -26,15 +51,11 @@ function setupTaskBlockOnClick() {
                 taskI: Number(index),
                 listI: Number(listIndex)
             }).then(() => {
-                let lists: Promise<Array<List>> = invoke("get_lists")
-                lists.then((lists) => {
-                    appLists = lists;
-                    writeListsToDOM(appLists);
-                    setupTaskBlockOnClick();
-                })
+                refreshLists();
             })
         });
     });
+
     document.querySelectorAll("completed-task-block")?.forEach((task) => {
         task.addEventListener('click', () => {
             const index = task.getAttribute("index");
@@ -46,12 +67,7 @@ function setupTaskBlockOnClick() {
                 taskI: Number(index),
                 listI: Number(listIndex)
             }).then(() => {
-                let lists: Promise<Array<List>> = invoke("get_lists")
-                lists.then((lists) => {
-                    appLists = lists;
-                    writeListsToDOM(appLists);
-                    setupTaskBlockOnClick();
-                })
+                refreshLists();
             })
         });
     })
@@ -75,6 +91,10 @@ function getListHtml(list: List, listIndex: number): string {
     <list-window>
         <h1>${list.name}</h1>
         <hr>
+        <form name="list${listIndex}" id="list${listIndex}">
+            <input name="new-task-title" id="new-task-title" placeholder="Add task">
+            <button type="submit" name="submit${listIndex}" id="submit${listIndex}">Add</button>
+        </form>
     `;
 
     for (let i = 0; i < list.tasks.length; i++) {

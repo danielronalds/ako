@@ -6,6 +6,7 @@ mod list;
 use list::List;
 use std::sync::Mutex;
 use tauri::State;
+use crate::list::Task;
 
 struct AppState(Mutex<ApplicationData>);
 
@@ -51,10 +52,24 @@ fn restart_task(state: State<AppState>, task_i: usize, list_i: usize) {
     }
 }
 
+#[tauri::command]
+fn add_task(state: State<AppState>, task_title: String, list_i: usize) {
+    if let Ok(mut data) = state.0.lock() {
+        if list_i >= data.lists.len() {
+            return;
+        }
+
+        let new_task = Task::new(task_title, "".to_string());
+
+        data.lists[list_i].add_task(new_task);
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_lists,
+            add_task,
             complete_task,
             restart_task
         ])
