@@ -25,12 +25,14 @@ function setupFormListeners(){
             let form: any | null = document.getElementById(formId);
             if(form == null) return;
 
-            let newTask = form.elements["new-task-title"];
+            let taskTitle = form.elements["new-task-title"];
+            let taskDesc = form.elements["new-task-description"];
 
-            if (newTask.value === "") return;
+            if (taskTitle.value === "") return;
 
             invoke("add_task", {
-                taskTitle: newTask.value,
+                taskTitle: taskTitle.value,
+                taskDesc: taskDesc.value,
                 listI: i
             }).then(() => {
                 refreshLists()
@@ -92,7 +94,8 @@ function getListHtml(list: List, listIndex: number): string {
         <h1>${list.name}</h1>
         <hr>
         <form name="list${listIndex}" id="list${listIndex}">
-            <input name="new-task-title" id="new-task-title" placeholder="Add task">
+            <input name="new-task-title" id="new-task-title" placeholder="New task's title">
+            <input name="new-task-description" id="new-task-description" placeholder="New task's description">
             <button type="submit" name="submit${listIndex}" id="submit${listIndex}">Add</button>
         </form>
     `;

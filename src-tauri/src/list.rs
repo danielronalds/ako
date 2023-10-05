@@ -112,11 +112,11 @@ impl Task {
     /// # Returns
     ///
     /// A new task that has not been completed
-    pub fn new<T: ToString>(title: T, description: T) -> Self {
+    pub fn new<T: Into<String>>(title: T, description: T) -> Self {
         Self {
             completed: false,
-            description: description.to_string(),
-            title: title.to_string(),
+            description: description.into(),
+            title: title.into(),
         }
     }
 

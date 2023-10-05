@@ -53,13 +53,13 @@ fn restart_task(state: State<AppState>, task_i: usize, list_i: usize) {
 }
 
 #[tauri::command]
-fn add_task(state: State<AppState>, task_title: String, list_i: usize) {
+fn add_task(state: State<AppState>, task_title: String, task_desc: String, list_i: usize) {
     if let Ok(mut data) = state.0.lock() {
         if list_i >= data.lists.len() {
             return;
         }
 
-        let new_task = Task::new(task_title, "".to_string());
+        let new_task = Task::new(task_title, task_desc);
 
         data.lists[list_i].add_task(new_task);
     }
