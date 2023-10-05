@@ -15,6 +15,33 @@ body {
   overflow: hidden;
 }
 
+form button {
+  font-size: 14px;
+  display: block;
+  transition: 0.3s ease-in-out;
+  padding: 7px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--nord6);
+}
+
+form button:hover {
+  background-color: var(--nord5);
+}
+
+form button:active {
+  background-color: var(--nord4);
+}
+
+form input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 7px;
+  font-size: 14px;
+  width: 95%;
+}
+
 top-bar, list-window, todays-agenda {
   box-shadow: #0000000F 0 10px 10px;
 }
@@ -59,6 +86,7 @@ agenda-tasks {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 25px;
+  overflow: auto;
   /*width: 100vw;*/
   /*height: 100vb;*/
   /*background-color: var(--nord3);*/
