@@ -26,6 +26,15 @@ impl List {
         }
     }
 
+    /// Gets the number of tasks in the lists
+    ///
+    /// # Returns
+    ///
+    /// The length of the task vec
+    pub fn len(&self) -> usize {
+        self.tasks.len()
+    }
+
     /// Adds a task to the list. If the task is completed it will be added to the completed_task
     /// vec, otherwise to the normal one
     ///
@@ -63,6 +72,31 @@ impl List {
 
         self.tasks[index].set_completed(false);
         self.sort_tasks();
+    }
+
+    /// Deletes a task from the list
+    ///
+    /// # Arguments
+    ///
+    /// - `index` The index of the task to delete
+    ///
+    /// # Returns
+    ///
+    /// The deleted task, or `None` if the index was out of range
+    pub fn delete_task(&mut self, index: usize) -> Option<Task> {
+        match index >= self.tasks.len() {
+            true => None,
+            false => Some(self.tasks.remove(index)),
+        }
+    }
+
+    /// Gets the tasks on the list as a vec
+    ///
+    /// # Returns
+    ///
+    /// A clone of the tasks vec
+    pub fn get_tasks(&self) -> Vec<Task> {
+        self.tasks.clone()
     }
 
     /// Sorts the tasks in the list with completed tasks being pushed to the back

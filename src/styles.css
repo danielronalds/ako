@@ -16,6 +16,7 @@ body {
 }
 
 form button {
+  cursor: pointer;
   font-size: 14px;
   display: block;
   transition: 0.3s ease-in-out;
@@ -132,4 +133,15 @@ task-title {
 task-description {
   font-size: large;
   display: block;
+}
+
+agenda-button {
+  float: right;
+  font-size: 20px;
+}
+
+agenda-button:hover {
+  color: var(--nord3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
 }
