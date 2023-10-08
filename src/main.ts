@@ -13,6 +13,7 @@ async function refreshLists() {
     writeListsToDOM(appLists);
     writeAgendaToDOM(agendaTasks);
     setupTaskBlockOnClick();
+    setupAgendaButtonsOnClick();
     setupFormListeners();
 }
 
@@ -40,6 +41,24 @@ function setupFormListeners() {
             });
         });
     }
+}
+
+function setupAgendaButtonsOnClick() {
+    document.querySelectorAll("agenda-button")?.forEach((task) => {
+        task.addEventListener('click', () => {
+            const index = task.getAttribute("index");
+            const listIndex = task.getAttribute("list-index");
+
+            if(index == null || listIndex == null) return;
+
+            invoke("move_task_to_agenda", {
+                taskI: Number(index),
+                listI: Number(listIndex)
+            }).then(() => {
+                refreshLists();
+            });
+        });
+    })
 }
 
 function setupTaskBlockOnClick() {
@@ -190,11 +209,13 @@ function getCompletedAgendaTaskHtml(task: Task, index: number): string {
 
 function getTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
-    <task-block index="${index}" list-index="${listIndex}">
+    <div style="display: flex; flex-direction: row;">
         <agenda-button index="${index}" list-index="${listIndex}">+</agenda-button>
-        <task-title>${task.title}</task-title>
-        <task-description>${task.description}</task-description>
-    </task-block>
+        <task-block index="${index}" list-index="${listIndex}">
+            <task-title>${task.title}</task-title>
+            <task-description>${task.description}</task-description>
+        </task-block>
+    </div>
     `
 }
 

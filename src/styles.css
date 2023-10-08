@@ -98,7 +98,7 @@ list-window {
   border-radius: 6px;
   padding: 10px;
   margin: 20px;
-  min-width: 350px;
+  width: 350px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -133,11 +133,16 @@ task-title {
 task-description {
   font-size: large;
   display: block;
+  word-wrap: break-word;
 }
 
 agenda-button {
-  float: right;
-  font-size: 20px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding: 5px;
+  font-size: 30px;
+  cursor: pointer;
 }
 
 agenda-button:hover {
