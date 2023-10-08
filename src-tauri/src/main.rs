@@ -2,29 +2,46 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod list;
+mod serialisation;
 
 use list::List;
+use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use tauri::State;
+
 use crate::list::Task;
+use crate::serialisation::{get_saved_state, save_application_data};
 
 struct AppState(Mutex<ApplicationData>);
 
-struct ApplicationData {
+#[derive(Serialize, Deserialize, Clone)]
+pub struct ApplicationData {
     lists: Vec<List>,
-    daily_agenda: List
+    daily_agenda: List,
 }
 
 impl Default for ApplicationData {
     fn default() -> Self {
-        let mut daily_agenda = List::new("Daily Agenda");
-        daily_agenda.add_task(Task::new("Get Groceries", "And not many, they're expensive"));
-        daily_agenda.add_task(Task::new("Build a Paper Plane", "Fold it or something"));
+        get_saved_state().unwrap_or({
+            let mut daily_agenda = List::new("Daily Agenda");
+            daily_agenda.add_task(Task::new(
+                "Get Groceries",
+                "And not many, they're expensive",
+            ));
+            daily_agenda.add_task(Task::new("Build a Paper Plane", "Fold it or something"));
 
-        Self {
-            lists: vec![List::default(), List::default(), List::default()],
-            daily_agenda
-        }
+            Self {
+                lists: vec![List::default(), List::default(), List::default()],
+                daily_agenda,
+            }
+        })
+    }
+}
+
+#[tauri::command]
+fn save_state(state: State<AppState>) {
+    if let Ok(state) = state.0.lock() {
+        let _ = save_application_data(state.clone());
     }
 }
 
@@ -32,7 +49,7 @@ impl Default for ApplicationData {
 fn get_lists(state: State<AppState>) -> Vec<List> {
     match state.0.lock() {
         Ok(data) => data.lists.clone(),
-        Err(_) => vec![]
+        Err(_) => vec![],
     }
 }
 
@@ -82,7 +99,9 @@ fn move_task_to_agenda(state: State<AppState>, task_i: usize, list_i: usize) {
             return;
         }
 
-        let task = data.lists[list_i].delete_task(task_i).expect("Index out of range");
+        let task = data.lists[list_i]
+            .delete_task(task_i)
+            .expect("Index out of range");
 
         data.daily_agenda.add_task(task);
     }
@@ -114,6 +133,7 @@ fn complete_agenda_task(state: State<AppState>, index: usize) {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
+            save_state,
             get_lists,
             add_task,
             complete_task,

@@ -15,6 +15,7 @@ async function refreshLists() {
     setupTaskBlockOnClick();
     setupAgendaButtonsOnClick();
     setupFormListeners();
+    await invoke("save_state");
 }
 
 
