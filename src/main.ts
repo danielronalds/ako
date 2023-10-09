@@ -214,13 +214,13 @@ function getCompletedAgendaTaskHtml(task: Task, index: number): string {
 
 function getTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
-    <div style="display: flex; flex-direction: row;">
+    <task-row>
         <agenda-button index="${index}" list-index="${listIndex}">+</agenda-button>
         <task-block index="${index}" list-index="${listIndex}">
             <task-title>${task.title}</task-title>
             <task-description>${task.description}</task-description>
         </task-block>
-    </div>
+    </task-row>
     `
 }
 

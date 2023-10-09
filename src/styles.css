@@ -2,6 +2,7 @@
 
 html {
   font-family: sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -109,6 +110,16 @@ list-window {
 list-window h1 {
   text-align: center;
 }
+
+task-row {
+  display: flex;
+  flex-direction: row;
+}
+
+task-row task-block {
+  width: 100%;
+}
+
 
 completed-task-block, task-block {
   transition: 0.3s ease-in-out;
