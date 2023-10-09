@@ -14,7 +14,7 @@ body {
   background-blend-mode: multiply;
 }
 
-form button {
+#cleanup-agenda, form button {
   cursor: pointer;
   font-size: 14px;
   display: block;
@@ -26,11 +26,11 @@ form button {
   background-color: var(--nord6);
 }
 
-form button:hover {
+#cleanup-agenda:hover, form button:hover {
   background-color: var(--nord5);
 }
 
-form button:active {
+#cleanup-agenda:active, form button:active {
   background-color: var(--nord4);
 }
 
@@ -151,4 +151,11 @@ agenda-button:hover {
   color: var(--nord3);
   background-color: #F5F5F5;
   border-radius: 10px;
+}
+
+#cleanup-agenda {
+  position: absolute;
+  bottom: 10px;
+  width: 94%;
+  font-size: 20px;
 }

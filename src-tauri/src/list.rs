@@ -109,6 +109,16 @@ impl List {
             .map(|x| x.to_owned())
             .collect();
     }
+
+    /// Deletes all completed tasks from the list
+    pub fn delete_completed_tasks(&mut self) {
+        self.tasks = self
+            .tasks
+            .iter()
+            .filter(|x| !x.completed)
+            .map(|x| x.to_owned())
+            .collect();
+    }
 }
 
 impl Default for List {

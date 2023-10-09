@@ -138,6 +138,13 @@ fn complete_agenda_task(state: State<AppState>, index: usize) {
     }
 }
 
+#[tauri::command]
+fn cleanup_agenda(state: State<AppState>) {
+    if let Ok(mut data) = state.0.lock() {
+        data.daily_agenda.delete_completed_tasks();
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -149,7 +156,8 @@ fn main() {
             move_task_to_agenda,
             get_agenda_tasks,
             complete_agenda_task,
-            restart_agenda_task
+            restart_agenda_task,
+            cleanup_agenda
         ])
         .manage(AppState(Default::default()))
         .run(tauri::generate_context!())

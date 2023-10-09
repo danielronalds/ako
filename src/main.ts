@@ -5,6 +5,12 @@ import { List, Task } from "./list.ts";
 let appLists: Array<List>, agendaTasks: Array<Task>;
 window.addEventListener("DOMContentLoaded", () => {
     refreshLists();
+
+    document.querySelector("#cleanup-agenda")?.addEventListener("click", () => {
+        invoke("cleanup_agenda").then(() => {
+            refreshLists();
+        });
+    });
 });
 
 async function refreshLists() {
