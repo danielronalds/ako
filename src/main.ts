@@ -1,6 +1,6 @@
-import {invoke} from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/tauri";
 
-import {List, Task} from "./list.ts";
+import { List, Task } from "./list.ts";
 
 let appLists: Array<List>, agendaTasks: Array<Task>;
 window.addEventListener("DOMContentLoaded", () => {
@@ -50,7 +50,7 @@ function setupAgendaButtonsOnClick() {
             const index = task.getAttribute("index");
             const listIndex = task.getAttribute("list-index");
 
-            if(index == null || listIndex == null) return;
+            if (index == null || listIndex == null) return;
 
             invoke("move_task_to_agenda", {
                 taskI: Number(index),
@@ -64,31 +64,29 @@ function setupAgendaButtonsOnClick() {
 
 function setupTaskBlockOnClick() {
     document.querySelectorAll("task-block")?.forEach((task) => {
-            task.addEventListener('click', () => {
-                const index = task.getAttribute("index");
-                const listIndex = task.getAttribute("list-index");
+        task.addEventListener('click', () => {
+            const index = task.getAttribute("index");
+            const listIndex = task.getAttribute("list-index");
 
-                const isAgenda = task.getAttribute("agenda") != null;
-                if (isAgenda) {
-                    if (index != null) {
-                        completeAgendaTask(Number(index))
-                        return;
-                    }
+            const isOnAgenda = task.getAttribute("agenda") != null;
+            if (isOnAgenda) {
+                if (index != null) {
+                    completeAgendaTask(Number(index))
+                    return;
                 }
+            }
 
-                if (index != null && listIndex != null) completeTask(Number(index), Number(listIndex));
-            });
-        }
-    )
-    ;
+            if (index != null && listIndex != null) completeTask(Number(index), Number(listIndex));
+        });
+    });
 
     document.querySelectorAll("completed-task-block")?.forEach((task) => {
         task.addEventListener('click', () => {
             const index = task.getAttribute("index");
             const listIndex = task.getAttribute("list-index");
 
-            const isAgenda = task.getAttribute("agenda") != null;
-            if (isAgenda) {
+            const isOnAgenda = task.getAttribute("agenda") != null;
+            if (isOnAgenda) {
                 if (index != null) {
                     restartAgendaTask(Number(index))
                     return;
