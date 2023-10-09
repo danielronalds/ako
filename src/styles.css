@@ -170,3 +170,8 @@ agenda-button:hover {
   width: 94%;
   font-size: 20px;
 }
+
+details {
+  transition: 0.3s ease-in-out;
+  text-align: center;
+}

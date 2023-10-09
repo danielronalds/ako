@@ -173,11 +173,14 @@ function getListHtml(list: List, listIndex: number): string {
     let innerHtml = `
     <list-window>
         <h1>${list.name}</h1>
+        <details>
+        <summary>Add Task</summary>
         <form name="list${listIndex}" id="list${listIndex}">
             <input name="new-task-title" id="new-task-title" placeholder="New task's title">
             <input name="new-task-description" id="new-task-description" placeholder="New task's description">
             <button type="submit" name="submit${listIndex}" id="submit${listIndex}">Add</button>
         </form>
+        </details>
     `;
 
     for (let i = 0; i < list.tasks.length; i++) {
