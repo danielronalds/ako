@@ -9,7 +9,6 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  /*height: 100vh;*/
   background-image: url("assets/rain_drops_animated.jpg");
   background-size: cover;
   background-color: rgba(0,0,0,.5);
@@ -175,4 +174,31 @@ agenda-button:hover {
 details {
   transition: 0.3s ease-in-out;
   text-align: center;
+}
+
+.tab {
+  display:inline-block;
+  width: 40%;
+  font-size: 20px;
+  padding: 7px;
+  border: none;
+  text-decoration: none;
+  background-color: #FFFFFF;
+  border-bottom: var(--nord0) solid 1px;
+  transition: 0.3s ease-in-out;
+}
+
+.tab:hover {
+  background-color: #F5F5F5;
+}
+
+.tab:active {
+
+}
+
+tab-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
 }

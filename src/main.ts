@@ -11,6 +11,8 @@ window.addEventListener("DOMContentLoaded", () => {
             refreshLists();
         });
     });
+
+    setupTabButtons();
 });
 
 async function refreshLists() {
@@ -22,6 +24,25 @@ async function refreshLists() {
     setupAgendaButtonsOnClick();
     setupFormListeners();
     await invoke("save_state");
+}
+
+function setupTabButtons() {
+    let listPanel = document.getElementById("list-panel");
+    let agendaPanel = document.getElementById("todays-agenda-shown");
+    if (listPanel == null || agendaPanel == null) return;
+    listPanel.style.display = "none";
+
+    document.querySelector("#agenda-tab")?.addEventListener("click", () => {
+        if (listPanel == null || agendaPanel == null) return;
+        listPanel.style.display = "none";
+        agendaPanel.style.display = "block";
+    });
+
+    document.querySelector("#list-tab")?.addEventListener("click", () => {
+        if (listPanel == null || agendaPanel == null) return;
+        listPanel.style.display = "block";
+        agendaPanel.style.display = "none";
+    });
 }
 
 

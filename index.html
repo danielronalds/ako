@@ -11,8 +11,21 @@
 <body>
 <top-bar>
     <h1>Ako</h1>
+
 </top-bar>
 <todays-agenda show>
+    <tab-container>
+        <button class="tab" id="agenda-tab">Agenda</button>
+        <button class="tab" id="list-tab">Lists</button>
+    </tab-container>
+    <div id="list-panel">
+        <form name="add-list-from" id="add-list-form">
+            <h1>Add List</h1>
+            <label for="new-list-name"></label><input id="new-list-name" name="new-list-name" placeholder="List name"/>
+            <button id="add-list" name="add-list">Add</button>
+        </form>
+    </div>
+    <br>
     <div id="todays-agenda-shown">
         <h1>Today's Agenda</h1>
         <agenda-tasks id="agenda-tasks-container">
