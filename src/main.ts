@@ -23,6 +23,7 @@ async function refreshLists() {
     setupTaskBlockOnClick();
     setupAgendaButtonsOnClick();
     setupFormListeners();
+    setupAddListForm();
     await invoke("save_state");
 }
 
@@ -44,7 +45,6 @@ function setupTabButtons() {
         agendaPanel.style.display = "none";
     });
 }
-
 
 function setupFormListeners() {
     for (let i = 0; i < appLists.length; i++) {
@@ -123,6 +123,23 @@ function setupTaskBlockOnClick() {
             if (index != null && listIndex != null) restartTask(Number(index), Number(listIndex));
         });
     })
+}
+
+function setupAddListForm() {
+    document.getElementById("add-list")?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let form: any | null = document.getElementById("add-list-form");
+
+        if(form == null) return;
+
+        invoke("add_list", {
+            name: form.elements["new-list-name"].value,
+        }).then(() => {
+            form.elements["new-list-name"].value = "";
+            refreshLists();
+        })
+    });
 }
 
 function completeTask(index: number, listIndex: number) {

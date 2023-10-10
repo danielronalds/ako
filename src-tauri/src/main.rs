@@ -35,10 +35,6 @@ impl Default for ApplicationData {
                 List::default(),
                 List::default(),
                 List::default(),
-                List::default(),
-                List::default(),
-                List::default(),
-                List::default(),
             ],
             daily_agenda,
         }
@@ -145,6 +141,17 @@ fn cleanup_agenda(state: State<AppState>) {
     }
 }
 
+#[tauri::command]
+fn add_list(state: State<AppState>, name: String) {
+    if let Ok(mut data) = state.0.lock() {
+        if name.is_empty() {
+            return;
+        }
+
+        data.lists.push(List::new(name));
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -157,7 +164,8 @@ fn main() {
             get_agenda_tasks,
             complete_agenda_task,
             restart_agenda_task,
-            cleanup_agenda
+            cleanup_agenda,
+            add_list
         ])
         .manage(AppState(Default::default()))
         .run(tauri::generate_context!())
