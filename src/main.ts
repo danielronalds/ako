@@ -2,7 +2,10 @@ import { invoke } from "@tauri-apps/api/tauri";
 
 import { List, Task } from "./list.ts";
 
+import {getAgendaTaskHtml, getCompletedAgendaTaskHtml, getListHtml} from "./components.ts";
+
 let appLists: Array<List>, agendaTasks: Array<Task>;
+
 window.addEventListener("DOMContentLoaded", () => {
     refreshLists();
 
@@ -205,70 +208,4 @@ function writeAgendaToDOM(tasks: Array<Task>) {
     }
 
     tasksAgendaContainer.innerHTML = innerHtml;
-}
-
-function getListHtml(list: List, listIndex: number): string {
-    let innerHtml = `
-    <list-window>
-        <h1>${list.name}</h1>
-        <details>
-        <summary>Add Task</summary>
-        <form name="list${listIndex}" id="list${listIndex}">
-            <input name="new-task-title" id="new-task-title" placeholder="New task's title">
-            <input name="new-task-description" id="new-task-description" placeholder="New task's description">
-            <button type="submit" name="submit${listIndex}" id="submit${listIndex}">Add</button>
-        </form>
-        </details>
-    `;
-
-    for (let i = 0; i < list.tasks.length; i++) {
-        let task = list.tasks[i];
-        if (task.completed) {
-            innerHtml += getCompletedTaskHtml(task, i, listIndex);
-        } else {
-            innerHtml += getTaskHtml(task, i, listIndex);
-        }
-    }
-
-    innerHtml += `
-        </list-window>
-    `;
-    return innerHtml;
-}
-
-function getAgendaTaskHtml(task: Task, index: number): string {
-    return `
-    <task-block agenda index="${index}">
-        <task-title>${task.title}</task-title>
-        <task-description>${task.description}</task-description>
-    </task-block>
-    `
-}
-
-function getCompletedAgendaTaskHtml(task: Task, index: number): string {
-    return `
-    <completed-task-block agenda index="${index}">
-        <task-title>${task.title}</task-title>
-    </completed-task-block>
-    `
-}
-
-function getTaskHtml(task: Task, index: number, listIndex: number): string {
-    return `
-    <task-row>
-        <agenda-button index="${index}" list-index="${listIndex}">+</agenda-button>
-        <task-block index="${index}" list-index="${listIndex}">
-            <task-title>${task.title}</task-title>
-            <task-description>${task.description}</task-description>
-        </task-block>
-    </task-row>
-    `
-}
-
-function getCompletedTaskHtml(task: Task, index: number, listIndex: number): string {
-    return `
-    <completed-task-block index="${index}" list-index="${listIndex}">
-        <task-title>${task.title}</task-title>
-    </completed-task-block>
-    `
 }
