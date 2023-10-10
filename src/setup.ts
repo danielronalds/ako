@@ -3,9 +3,15 @@
  *
  * @author Daniel R
  */
-import {invoke} from "@tauri-apps/api/tauri";
-import {completeAgendaTask, completeTask, restartAgendaTask, restartTask} from "./operations.ts";
-import {refreshDOM} from "./main.ts";
+import {
+    addList,
+    addTask,
+    completeAgendaTask,
+    completeTask,
+    moveTaskToAgenda,
+    restartAgendaTask,
+    restartTask
+} from "./operations.ts";
 
 /**
  * Sets up the listeners for the tab buttons on the side panel, allowing them to change the content of the panel
@@ -46,15 +52,7 @@ export function setupAddTaskFormListeners(numLists: number) {
             let taskTitle = form.elements["new-task-title"];
             let taskDesc = form.elements["new-task-description"];
 
-            if (taskTitle.value === "") return;
-
-            invoke("add_task", {
-                taskTitle: taskTitle.value,
-                taskDesc: taskDesc.value,
-                listI: i
-            }).then(() => {
-                refreshDOM().then();
-            });
+            addTask(taskTitle, taskDesc, i);
         });
     }
 }
@@ -70,12 +68,7 @@ export function setupMoveToAgendaButtons() {
 
             if (index == null || listIndex == null) return;
 
-            invoke("move_task_to_agenda", {
-                taskI: Number(index),
-                listI: Number(listIndex)
-            }).then(() => {
-                refreshDOM().then();
-            });
+            moveTaskToAgenda(Number(index), Number(listIndex));
         });
     })
 }
@@ -130,11 +123,8 @@ export function setupAddListForm() {
 
         if (form == null) return;
 
-        invoke("add_list", {
-            name: form.elements["new-list-name"].value,
-        }).then(() => {
-            form.elements["new-list-name"].value = "";
-            refreshDOM().then();
-        })
+        addList(form.elements["new-list-name"].value);
+
+        form.elements["new-list-name"].value = "";
     });
 }
