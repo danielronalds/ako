@@ -63,7 +63,7 @@ fn create_file() -> Option<File> {
 }
 
 fn application_data_to_json(data: ApplicationData) -> Option<String> {
-    if let Ok(json) = serde_json::to_string(&data) {
+    if let Ok(json) = serde_json::to_string_pretty(&data) {
         return Some(json);
     }
     None
