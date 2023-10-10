@@ -1,24 +1,25 @@
-import { invoke } from "@tauri-apps/api/tauri";
+import {invoke} from "@tauri-apps/api/tauri";
 
-import { List, Task } from "./list.ts";
+import {List, Task} from "./list.ts";
 
 import {getAgendaTaskHtml, getCompletedAgendaTaskHtml, getListHtml} from "./components.ts";
+import {completeAgendaTask, completeTask, restartAgendaTask, restartTask} from "./operations.ts";
 
 let appLists: Array<List>, agendaTasks: Array<Task>;
 
 window.addEventListener("DOMContentLoaded", () => {
-    refreshLists();
+    refreshDOM();
 
     document.querySelector("#cleanup-agenda")?.addEventListener("click", () => {
         invoke("cleanup_agenda").then(() => {
-            refreshLists();
+            refreshDOM();
         });
     });
 
     setupTabButtons();
 });
 
-async function refreshLists() {
+export async function refreshDOM() {
     appLists = await invoke("get_lists");
     agendaTasks = await invoke("get_agenda_tasks");
     writeListsToDOM(appLists);
@@ -68,7 +69,7 @@ function setupFormListeners() {
                 taskDesc: taskDesc.value,
                 listI: i
             }).then(() => {
-                refreshLists()
+                refreshDOM()
             });
         });
     }
@@ -86,7 +87,7 @@ function setupAgendaButtonsOnClick() {
                 taskI: Number(index),
                 listI: Number(listIndex)
             }).then(() => {
-                refreshLists();
+                refreshDOM();
             });
         });
     })
@@ -134,48 +135,14 @@ function setupAddListForm() {
 
         let form: any | null = document.getElementById("add-list-form");
 
-        if(form == null) return;
+        if (form == null) return;
 
         invoke("add_list", {
             name: form.elements["new-list-name"].value,
         }).then(() => {
             form.elements["new-list-name"].value = "";
-            refreshLists();
+            refreshDOM();
         })
-    });
-}
-
-function completeTask(index: number, listIndex: number) {
-    invoke("complete_task", {
-        taskI: index,
-        listI: listIndex
-    }).then(() => {
-        refreshLists();
-    });
-}
-
-function restartTask(index: number, listIndex: number) {
-    invoke("restart_task", {
-        taskI: index,
-        listI: listIndex
-    }).then(() => {
-        refreshLists();
-    });
-}
-
-function completeAgendaTask(index: number) {
-    invoke("complete_agenda_task", {
-        index: index,
-    }).then(() => {
-        refreshLists();
-    });
-}
-
-function restartAgendaTask(index: number) {
-    invoke("restart_agenda_task", {
-        index: index,
-    }).then(() => {
-        refreshLists();
     });
 }
 
