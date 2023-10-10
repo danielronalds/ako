@@ -120,7 +120,6 @@ task-row task-block {
   width: 100%;
 }
 
-
 completed-task-block, task-block {
   transition: 0.3s ease-in-out;
   cursor: pointer;
@@ -149,20 +148,29 @@ task-description {
   word-wrap: break-word;
 }
 
-agenda-button {
+agenda-button, trash-button {
   display: flex;
   align-content: center;
   align-items: center;
-  padding: 5px;
-  font-size: 30px;
+  padding: 0px 5px 0px 5px;
+  font-size: 22px;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
 
 agenda-button:hover {
-  color: var(--nord3);
-  background-color: #F5F5F5;
+  color: var(--nord6);
+  background-color: var(--nord14);
   border-radius: 10px;
 }
+
+trash-button:hover {
+  color: var(--nord6);
+  background-color: var(--nord11);
+  border-radius: 10px;
+}
+
+
 
 #cleanup-agenda {
   position: absolute;
@@ -190,10 +198,6 @@ details {
 
 .tab:hover {
   background-color: #F5F5F5;
-}
-
-.tab:active {
-
 }
 
 tab-container {

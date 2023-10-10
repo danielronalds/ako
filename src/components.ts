@@ -83,7 +83,10 @@ export function getCompletedAgendaTaskHtml(task: Task, index: number): string {
 function getTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
     <task-row>
-        <agenda-button index="${index}" list-index="${listIndex}">+</agenda-button>
+        <div style="display: flex; flex-direction: column; justify-content:center;align-items: center;">
+        <agenda-button title="Add task to agenda" index="${index}" list-index="${listIndex}"></agenda-button>
+        <trash-button title="Delete Task"></trash-button>
+        </div>
         <task-block index="${index}" list-index="${listIndex}">
             <task-title>${task.title}</task-title>
             <task-description>${task.description}</task-description>
