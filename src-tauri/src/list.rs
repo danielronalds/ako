@@ -26,6 +26,15 @@ impl List {
         }
     }
 
+    /// Gets the name of the list
+    ///
+    /// # Returns
+    ///
+    /// A clone of the name field
+    pub fn name(&self) -> String {
+        self.name.clone()
+    }
+
     /// Gets the number of tasks in the lists
     ///
     /// # Returns

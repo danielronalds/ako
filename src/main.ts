@@ -24,6 +24,11 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     setupTabButtons();
+
+    // Moved this here as the panel is not reset after each refreshDOM() call,
+    // so was getting duplicate listeners. Resulted in a weird pattern of first
+    // one list being created, then two, then four etc.
+    setupAddListForm();
 });
 
 /**
@@ -40,7 +45,6 @@ export async function refreshDOM() {
     setupTaskBlockOnClick();
     setupMoveToAgendaButtons();
     setupAddTaskFormListeners(appLists.length);
-    setupAddListForm();
 
     // Saving the application state
     await invoke("save_state");

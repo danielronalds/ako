@@ -31,11 +31,7 @@ impl Default for ApplicationData {
         daily_agenda.add_task(Task::new("Build a Paper Plane", "Fold it or something"));
 
         Self {
-            lists: vec![
-                List::default(),
-                List::default(),
-                List::default(),
-            ],
+            lists: vec![List::default(), List::default(), List::default()],
             daily_agenda,
         }
         // })
