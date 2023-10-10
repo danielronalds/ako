@@ -12,7 +12,7 @@ import {refreshDOM} from "./main.ts";
  */
 export function setupTabButtons() {
     let listPanel = document.getElementById("list-panel");
-    let agendaPanel = document.getElementById("todays-agenda-shown");
+    let agendaPanel = document.getElementById("agenda-panel");
     if (listPanel == null || agendaPanel == null) return;
     listPanel.style.display = "none";
 
