@@ -116,7 +116,7 @@ task-row {
   flex-direction: row;
 }
 
-task-row task-block {
+task-row task-block, task-row completed-task-block{
   width: 100%;
 }
 
@@ -133,7 +133,7 @@ completed-task-block:hover, task-block:hover {
   border-radius: 10px;
 }
 
-completed-task-block {
+completed-task-block task-title {
   text-decoration: line-through;
 }
 
@@ -169,8 +169,6 @@ trash-button:hover {
   background-color: var(--nord11);
   border-radius: 10px;
 }
-
-
 
 #cleanup-agenda {
   position: absolute;

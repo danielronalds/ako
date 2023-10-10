@@ -105,8 +105,13 @@ function getTaskHtml(task: Task, index: number, listIndex: number): string {
  */
 function getCompletedTaskHtml(task: Task, index: number, listIndex: number): string {
     return `
-    <completed-task-block index="${index}" list-index="${listIndex}">
-        <task-title>${task.title}</task-title>
-    </completed-task-block>
+    <task-row>
+        <div style="display: flex; flex-direction: column; justify-content:center;align-items: center;">
+            <trash-button title="Delete Task" index="${index}" list-index="${listIndex}"></trash-button>
+        </div>
+        <completed-task-block index="${index}" list-index="${listIndex}">
+            <task-title>${task.title}</task-title>
+        </completed-task-block>
+    </task-row>
     `
 }
