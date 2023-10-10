@@ -39,6 +39,22 @@ export function addTask(taskTitle: string, taskDesc: string, listI: number) {
 }
 
 /**
+ * Calls the rust backend to delete a task from a list
+ *
+ * @param index The index of the task to delete
+ * @param listIndex The index of the list the task belongs to
+ */
+export function deleteTask(index: number, listIndex: number) {
+    invoke("delete_task", {
+        taskI: index,
+        listI: listIndex
+    }).then(() => {
+        refreshDOM().then();
+    });
+}
+
+
+/**
  * Calls the rust backend to complete the given task and refreshed the DOM
  *
  * @param index The index of the task

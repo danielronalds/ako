@@ -7,7 +7,7 @@ import {
     addList,
     addTask,
     completeAgendaTask,
-    completeTask,
+    completeTask, deleteTask,
     moveTaskToAgenda,
     restartAgendaTask,
     restartTask
@@ -127,4 +127,18 @@ export function setupAddListForm() {
 
         form.elements["new-list-name"].value = "";
     });
+}
+
+export function setupDeleteTaskButtons() {
+    document.querySelectorAll("trash-button")?.forEach((task) => {
+        task.addEventListener('click', () => {
+            const index = task.getAttribute("index");
+            const listIndex = task.getAttribute("list-index");
+
+            if (index == null || listIndex == null) return;
+
+            deleteTask(Number(index), Number(listIndex));
+        });
+    })
+
 }

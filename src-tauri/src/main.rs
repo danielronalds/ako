@@ -89,6 +89,13 @@ fn add_task(state: State<AppState>, task_title: String, task_desc: String, list_
 }
 
 #[tauri::command]
+fn delete_task(state: State<AppState>, task_i: usize, list_i: usize) {
+    if let Ok(mut data) = state.0.lock() {
+        data.lists[list_i].delete_task(task_i);
+    }
+}
+
+#[tauri::command]
 fn move_task_to_agenda(state: State<AppState>, task_i: usize, list_i: usize) {
     if let Ok(mut data) = state.0.lock() {
         if list_i >= data.lists.len() {
@@ -154,6 +161,7 @@ fn main() {
             save_state,
             get_lists,
             add_task,
+            delete_task,
             complete_task,
             restart_task,
             move_task_to_agenda,
