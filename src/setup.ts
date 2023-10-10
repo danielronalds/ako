@@ -49,8 +49,8 @@ export function setupAddTaskFormListeners(numLists: number) {
             let form: any | null = document.getElementById(formId);
             if (form == null) return;
 
-            let taskTitle = form.elements["new-task-title"];
-            let taskDesc = form.elements["new-task-description"];
+            let taskTitle = form.elements["new-task-title"].value;
+            let taskDesc = form.elements["new-task-description"].value;
 
             addTask(taskTitle, taskDesc, i);
         });
