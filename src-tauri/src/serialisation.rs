@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io;
 use std::io::{Read, Write};
 
-const FILE_PATH: &str = "..json";
+const FILE_PATH: &str = ".ako.json";
 
 pub fn get_saved_state() -> Option<ApplicationData> {
     let file = open_file();
