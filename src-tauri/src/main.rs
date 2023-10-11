@@ -155,6 +155,17 @@ fn add_list(state: State<AppState>, name: String) {
     }
 }
 
+#[tauri::command]
+fn delete_list(state: State<AppState>, index: usize) {
+    if let Ok(mut data) = state.0.lock() {
+        if index >= data.lists.len() {
+            return;
+        }
+
+        data.lists.remove(index);
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -169,7 +180,8 @@ fn main() {
             complete_agenda_task,
             restart_agenda_task,
             cleanup_agenda,
-            add_list
+            add_list,
+            delete_list
         ])
         .manage(AppState(Default::default()))
         .run(tauri::generate_context!())

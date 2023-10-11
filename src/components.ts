@@ -120,10 +120,14 @@ function getCompletedTaskHtml(task: Task, index: number, listIndex: number): str
  * Creates the HTML markup for displaying a list in the side panel
  *
  * @param list The list to create the markup for
+ * @param index The index of the list
  */
-export function getSidePanelListHTML(list: List): string {
+export function getSidePanelListHTML(list: List, index: number): string {
     return `
     <list-row>
+        <div style="display: flex; flex-direction: column; justify-content:center;align-items: center;">
+            <delete-list-button title="Delete List" index="${index}"></delete-list-button>
+        </div>
         <list-name>${list.name}</list-name>
     </list-row>
     `

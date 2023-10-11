@@ -7,13 +7,11 @@ import {
     addList,
     addTask,
     completeAgendaTask,
-    completeTask, deleteTask,
+    completeTask, deleteList, deleteTask,
     moveTaskToAgenda,
     restartAgendaTask,
     restartTask
 } from "./operations.ts";
-import {getSidePanelListHTML} from "./components.ts";
-import {List} from "./list.ts";
 
 /**
  * Sets up the listeners for the tab buttons on the side panel, allowing them to change the content of the panel
@@ -131,6 +129,10 @@ export function setupAddListForm() {
     });
 }
 
+/**
+ * Sets up the trash buttons next to the tasks in each list so that when the button is click the corresponding task is
+ * deleted
+ */
 export function setupDeleteTaskButtons() {
     document.querySelectorAll("trash-button")?.forEach((task) => {
         task.addEventListener('click', () => {
@@ -142,4 +144,20 @@ export function setupDeleteTaskButtons() {
             deleteTask(Number(index), Number(listIndex));
         });
     })
+}
+
+/**
+ * Sets up the trash buttons next to the list names in the list side panel, so that when they are clicked the
+ * corresponding list is deleted
+ */
+export function setupDeleteListButtons() {
+    document.querySelectorAll("delete-list-button")?.forEach((list) => {
+        list.addEventListener('click', () => {
+            const index = list.getAttribute("index");
+
+            if (index == null) return;
+
+            deleteList(Number(index));
+        })
+    });
 }

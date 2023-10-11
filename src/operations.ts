@@ -20,6 +20,19 @@ export function addList(name: String){
 }
 
 /**
+ * Calls the rust backend to remove the list at the given index, if it exists
+ *
+ * @param index The index of the list to delete
+ */
+export function deleteList(index: number) {
+    invoke("delete_list", {
+        index: index,
+    }).then(() => {
+        refreshDOM().then();
+    })
+}
+
+/**
  * Calls the rust backend to add a task
  *
  * @param taskTitle The title of the task

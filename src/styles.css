@@ -148,7 +148,7 @@ task-description {
   word-wrap: break-word;
 }
 
-agenda-button, trash-button {
+agenda-button, trash-button, delete-list-button {
   display: flex;
   align-content: center;
   align-items: center;
@@ -164,7 +164,7 @@ agenda-button:hover {
   background-color: var(--nord14);
 }
 
-trash-button:hover {
+trash-button:hover, delete-list-button:hover {
   color: var(--nord6);
   background-color: var(--nord11);
 }
@@ -207,10 +207,13 @@ tab-container {
 list-row {
   display: flex;
   flex-direction: row;
+  padding: 7px;
+  width: 100%;
 }
 
 list-name {
   font-size: x-large;
   word-wrap: break-word;
   display: block;
+  margin-left: 10px;
 }
