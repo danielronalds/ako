@@ -115,3 +115,16 @@ function getCompletedTaskHtml(task: Task, index: number, listIndex: number): str
     </task-row>
     `
 }
+
+/**
+ * Creates the HTML markup for displaying a list in the side panel
+ *
+ * @param list The list to create the markup for
+ */
+export function getSidePanelListHTML(list: List): string {
+    return `
+    <list-row>
+        <list-name>${list.name}</list-name>
+    </list-row>
+    `
+}

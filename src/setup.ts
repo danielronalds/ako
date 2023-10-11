@@ -12,6 +12,8 @@ import {
     restartAgendaTask,
     restartTask
 } from "./operations.ts";
+import {getListHtml, getSidePanelListHTML} from "./components.ts";
+import {List} from "./list.ts";
 
 /**
  * Sets up the listeners for the tab buttons on the side panel, allowing them to change the content of the panel
@@ -140,5 +142,18 @@ export function setupDeleteTaskButtons() {
             deleteTask(Number(index), Number(listIndex));
         });
     })
+}
 
+export function setupListsInPanel(lists: Array<List>) {
+    let listHTML = "";
+
+    for (let i = 0; i < lists.length; i++) {
+        listHTML += getSidePanelListHTML(lists[i]);
+    }
+
+    let listContainer = document.getElementById("list-panel-container");
+
+    if(listContainer == null) return;
+
+    listContainer.innerHTML =listHTML;
 }

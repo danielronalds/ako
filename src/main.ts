@@ -9,7 +9,7 @@ import {
     setupMoveToAgendaButtons,
     setupAddTaskFormListeners,
     setupTabButtons,
-    setupTaskBlockOnClick, setupDeleteTaskButtons
+    setupTaskBlockOnClick, setupDeleteTaskButtons, setupListsInPanel
 } from "./setup.ts";
 
 let appLists: Array<List>, agendaTasks: Array<Task>;
@@ -46,6 +46,7 @@ export async function refreshDOM() {
     setupMoveToAgendaButtons();
     setupAddTaskFormListeners(appLists.length);
     setupDeleteTaskButtons();
+    setupListsInPanel(appLists);
 
     // Saving the application state
     await invoke("save_state");
