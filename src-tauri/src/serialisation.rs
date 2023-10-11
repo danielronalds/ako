@@ -1,11 +1,12 @@
 /// This module contains the logic for serializing and deserializing the programs state
 use crate::ApplicationData;
 
-use std::fs::File;
+use std::fs::{create_dir_all, File};
 use std::io;
 use std::io::{Read, Write};
 
-const FILE_PATH: &str = ".ako.json";
+const FOLDER_PATH: &str = ".config/ako/";
+const FILE_PATH: &str = ".config/ako/ako.json";
 
 pub fn get_saved_state() -> Option<ApplicationData> {
     let file = open_file();
@@ -44,10 +45,15 @@ fn json_to_application_data(file_contents: Option<String>) -> Option<Application
 }
 
 pub fn save_application_data(data: ApplicationData) -> io::Result<()> {
-    //create_dir_all(FOLDER_PATH)?;
+    create_config_folder()?;
     let file = create_file();
     let json = application_data_to_json(data);
     write_json_to_file(file, json)
+}
+
+fn create_config_folder() -> io::Result<()> {
+    let home_dir = dirs::home_dir().expect("Couldn't get home dir");
+    create_dir_all(home_dir.join(FOLDER_PATH))
 }
 
 fn create_file() -> Option<File> {

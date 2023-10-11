@@ -22,7 +22,7 @@ pub struct ApplicationData {
 
 impl Default for ApplicationData {
     fn default() -> Self {
-        // get_saved_state().unwrap_or({
+        get_saved_state().unwrap_or({
         let mut daily_agenda = List::new("Daily Agenda");
         daily_agenda.add_task(Task::new(
             "Get Groceries",
@@ -34,7 +34,7 @@ impl Default for ApplicationData {
             lists: vec![List::default(), List::default(), List::default()],
             daily_agenda,
         }
-        // })
+        })
     }
 }
 
