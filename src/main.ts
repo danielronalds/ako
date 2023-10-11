@@ -2,17 +2,17 @@ import {invoke} from "@tauri-apps/api/tauri";
 
 import {List, Task} from "./list.ts";
 
-import {getAgendaTaskHtml, getCompletedAgendaTaskHtml, getListHtml} from "./components.ts";
+import {getAgendaTaskHtml, getCompletedAgendaTaskHtml, getListHtml, getSidePanelListHTML} from "./components.ts";
 
 import {
     setupAddListForm,
     setupMoveToAgendaButtons,
     setupAddTaskFormListeners,
     setupTabButtons,
-    setupTaskBlockOnClick, setupDeleteTaskButtons, setupListsInPanel
+    setupTaskBlockOnClick, setupDeleteTaskButtons
 } from "./setup.ts";
 
-let appLists: Array<List>, agendaTasks: Array<Task>;
+// let appLists: Array<List>, agendaTasks: Array<Task>;
 
 window.addEventListener("DOMContentLoaded", () => {
     refreshDOM().then();
@@ -36,17 +36,17 @@ window.addEventListener("DOMContentLoaded", () => {
  */
 export async function refreshDOM() {
     // Fetching the user's agenda and lists
-    appLists = await invoke("get_lists");
-    agendaTasks = await invoke("get_agenda_tasks");
+    let lists: Array<List> = await invoke("get_lists");
+    let agenda: Array<Task> = await invoke("get_agenda_tasks");
 
     // Setting up listeners
-    writeListsToDOM(appLists);
-    writeAgendaToDOM(agendaTasks);
+    writeListsToDOM(lists);
+    writeAgendaToDOM(agenda);
+    writeListsToPanel(lists);
     setupTaskBlockOnClick();
     setupMoveToAgendaButtons();
-    setupAddTaskFormListeners(appLists.length);
+    setupAddTaskFormListeners(agenda.length);
     setupDeleteTaskButtons();
-    setupListsInPanel(appLists);
 
     // Saving the application state
     await invoke("save_state");
@@ -91,4 +91,23 @@ function writeAgendaToDOM(tasks: Array<Task>) {
     }
 
     tasksAgendaContainer.innerHTML = innerHtml;
+}
+
+/**
+ * Writes the current lists to the side panel under the 'Lists' tab
+ *
+ * @param lists The user's current lists
+ */
+export function writeListsToPanel(lists: Array<List>) {
+    let listHTML = "";
+
+    for (let i = 0; i < lists.length; i++) {
+        listHTML += getSidePanelListHTML(lists[i], i);
+    }
+
+    let listContainer = document.getElementById("list-panel-container");
+
+    if (listContainer == null) return;
+
+    listContainer.innerHTML = listHTML;
 }

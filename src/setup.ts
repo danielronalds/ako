@@ -12,7 +12,7 @@ import {
     restartAgendaTask,
     restartTask
 } from "./operations.ts";
-import {getListHtml, getSidePanelListHTML} from "./components.ts";
+import {getSidePanelListHTML} from "./components.ts";
 import {List} from "./list.ts";
 
 /**
@@ -142,18 +142,4 @@ export function setupDeleteTaskButtons() {
             deleteTask(Number(index), Number(listIndex));
         });
     })
-}
-
-export function setupListsInPanel(lists: Array<List>) {
-    let listHTML = "";
-
-    for (let i = 0; i < lists.length; i++) {
-        listHTML += getSidePanelListHTML(lists[i]);
-    }
-
-    let listContainer = document.getElementById("list-panel-container");
-
-    if(listContainer == null) return;
-
-    listContainer.innerHTML =listHTML;
 }
