@@ -9,7 +9,10 @@ import {
     setupMoveToAgendaButtons,
     setupAddTaskFormListeners,
     setupTabButtons,
-    setupTaskBlockOnClick, setupDeleteTaskButtons, setupDeleteListButtons
+    setupTaskBlockOnClick,
+    setupDeleteTaskButtons,
+    setupDeleteListButtons,
+    setupCleanupAgendaButton
 } from "./setup.ts";
 
 // let appLists: Array<List>, agendaTasks: Array<Task>;
@@ -17,17 +20,9 @@ import {
 window.addEventListener("DOMContentLoaded", () => {
     refreshDOM().then();
 
-    document.querySelector("#cleanup-agenda")?.addEventListener("click", () => {
-        invoke("cleanup_agenda").then(() => {
-            refreshDOM().then();
-        });
-    });
-
+    // Setting up events for elements that are not replaced each change
+    setupCleanupAgendaButton();
     setupTabButtons();
-
-    // Moved this here as the panel is not reset after each refreshDOM() call,
-    // so was getting duplicate listeners. Resulted in a weird pattern of first
-    // one list being created, then two, then four etc.
     setupAddListForm();
 });
 

@@ -5,7 +5,7 @@
  */
 import {
     addList,
-    addTask,
+    addTask, cleanupAgendaTasks,
     completeAgendaTask,
     completeTask, deleteList, deleteTask,
     moveTaskToAgenda,
@@ -160,4 +160,12 @@ export function setupDeleteListButtons() {
             deleteList(Number(index));
         })
     });
+}
+
+/**
+ * Sets up the click event for the cleanup button on the side panel so that when it is clicked all completed tasks are
+ * deleted
+ */
+export function setupCleanupAgendaButton() {
+    document.querySelector("#cleanup-agenda")?.addEventListener("click", cleanupAgendaTasks);
 }

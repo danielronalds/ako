@@ -11,7 +11,7 @@ import {refreshDOM} from "./main.ts";
  *
  * @param name The name the new list should have
  */
-export function addList(name: String){
+export function addList(name: String) {
     invoke("add_list", {
         name: name,
     }).then(() => {
@@ -134,6 +134,12 @@ export function restartAgendaTask(index: number) {
     invoke("restart_agenda_task", {
         index: index,
     }).then(() => {
+        refreshDOM().then();
+    });
+}
+
+export function cleanupAgendaTasks() {
+    invoke("cleanup_agenda").then(() => {
         refreshDOM().then();
     });
 }
