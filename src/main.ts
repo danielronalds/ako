@@ -15,8 +15,6 @@ import {
     setupCleanupAgendaButton
 } from "./setup.ts";
 
-// let appLists: Array<List>, agendaTasks: Array<Task>;
-
 window.addEventListener("DOMContentLoaded", () => {
     refreshDOM().then();
 

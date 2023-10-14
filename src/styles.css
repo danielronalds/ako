@@ -91,9 +91,6 @@ agenda-tasks {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 25px;
-  /*width: 100vw;*/
-  /*height: 100vb;*/
-  /*background-color: var(--nord3);*/
 }
 
 list-window {
